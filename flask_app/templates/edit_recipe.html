@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit recipe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>  
+    <div class="container">
+        <header class="d-flex justify-content-between align-items-center">
+            <h1>Bienvenid@ {{user.first_name}}</h1>
+            <a href="/dashboard" class="btn btn-primary">Back to recipes</a>
+            <a href="/logout" class="btn btn-danger">logout</a>
+        </header>
+        {% with messages = get_flashed_messages(category_filter=['recetas']) %}
+            {% if messages %}
+                <div class="alert alert-danger">
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form action="/create/recipe" method = "post" class = "form-group">
+            <input type="hidden" value = "{{user.id}}" name = "user_id">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id = "name" name = "name" class="form-control" value = "{{vista_recetas.name}}">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" cols="30" rows="10" class="form-control">{{vista_recetas.description}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="instructions">instructions</label>
+                <textarea name="instructions" id="instructions" cols="30" rows="10" class="form-control">{{vista_recetas.instructions}}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="date_made">Fecha de creación</label>
+                <input type="date" id="date_made" name="date_made" class="form-control" value = "{{vista_recetas.date_made}}">
+            </div>
+            <div class="form-group">
+                <label>¿Menos de 30 mins?</label>
+                <input type="radio" name="under30" id="under30YES" value="1" {% if vista_recetas.under30 == 1 %} checked {% endif %}>
+                <label for="under30YES">SI</label> -
+                <input type="radio" name="under30" id="under30NO" value="0" {% if vista_recetas.under30 == 0 %} checked {% endif %}>
+                <label for="under30NO">NO</label>
+            </div>
+            <div class="form-group">
+                <input type="submit" name="submit" id="submit" value="Guardar" class = "btn btn-danger">
+            </div>
+        </form>
+    </div>    
+</body>
+</html>

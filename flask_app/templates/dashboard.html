@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <header class="d-flex justify-content-between align-items-center">
+            <h1>Bienvenid@ {{user.first_name}}</h1>
+            <a href="/new/recipe" class="btn btn-primary">Create</a>
+            <a href="/logout" class="btn btn-danger">logout</a>
+        </header>
+        <table class = "table table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre receta</th>
+                    <th>Under</th>
+                    <th>Posted By</th>
+                    <th>Actions</th>
+                </tr>
+                <tbody>
+                    {% for recipe in vista_recetas %}
+                    <tr>
+                        <th>{{recipe.name}}</th>
+                        {% if recipe.under30 == 1 %}
+                            <th>SI</th>
+                        {% endif %}
+                        {% if recipe.under30 == 0 %}
+                            <th>NO</th>
+                        {% endif %}
+                        <th>{{recipe.first_name}}</th>
+                        <th>
+                            {% if recipe.first_name == user.first_name %}
+                            <a href="/editar/receta/{{recipe.id}}" class = "btn btn-danger">Edit</a>
+                            <a href="/eliminar/receta" class = "btn btn-danger">Eliminar</a>
+                            {% endif %}
+                            <a href="/visualizar/receta" class = "btn btn-danger">Visualizar</a>
+                        </th>
+                    {% endfor %}
+                    </tr>
+                </tbody>
+
+            </thead>
+
+        </table>
+        </div>
+    </div>    
+</body>
+</html>
